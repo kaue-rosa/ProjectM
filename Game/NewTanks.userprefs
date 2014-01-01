@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Hunter\HunterController.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Hunter\HunterController.cs" Line="92" Column="17" />
+      <File FileName="Assets\Scripts\Hunter\HunterInputManager.cs" Line="23" Column="67" />
+      <File FileName="Assets\Scripts\CharacterMotor.cs" Line="355" Column="40" />
+      <File FileName="Assets\Scripts\JumpPad.cs" Line="12" Column="30" />
+      <File FileName="Assets\Scripts\Weapon\Bullet.cs" Line="25" Column="6" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
