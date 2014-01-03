@@ -192,13 +192,14 @@ public class HunterController : Photon.MonoBehaviour {
 	}
 
 	public void Death() {
-		this.transform.position = startingPosition;
+		//TODO:Fix network dying bug
+		/*this.transform.position = startingPosition;
 		this.transform.rotation = Quaternion.identity;
 		this.health = this.startingHealth;
 		NetworkCharacter nc = this.GetComponent<NetworkCharacter>();
 		if(nc) {
 			nc.IgnoreLerp();
-		}
+		}*/
 	}
 	
 	[RPC]
