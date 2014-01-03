@@ -17,9 +17,10 @@ public class HunterController : Photon.MonoBehaviour {
 	[SerializeField] public float jumpHeight = 2f;
 	[SerializeField] private float maxRotationSpeed = 1000f;
 	[SerializeField] private Renderer[] bodyRenderers = null;
+	[SerializeField] private int health = 3;
 
 	private Dictionary<Weapons,WeaponManager> weapons = new Dictionary<Weapons, WeaponManager>();
-	
+
 	public Transform cameraTargetTransform;
 	public Transform hunterCameraTransform;
 	public Transform headPivot;
@@ -45,19 +46,26 @@ public class HunterController : Photon.MonoBehaviour {
 	private CharacterMotor motor;	
 	private Color myColor = Color.white;
 	private int connectedPlayers = 0;
-
+	private Vector3 startingPosition;
 	private bool firing;
 	private float firingTimer;
+	private int startingHealth;
+
+	public int Health {
+		get{return health;}
+		set{health = value;}
+	}
 	
 
-	
 	void Start() {
 		idleTimer = 0.0f;		
 		hunterTransform = transform;
 		
-		walk = true;
-		aim = false;
-		reloading = false;
+		this.walk = true;
+		this.aim = false;
+		this.reloading = false;
+		this.startingPosition = this.transform.position;
+		this.startingHealth = this.Health;
 
 		motor = this.gameObject.GetComponent<CharacterMotor>();
 		motor.CanControl = true;
@@ -90,6 +98,10 @@ public class HunterController : Photon.MonoBehaviour {
 	}
 	
 	void Update() {
+
+		if(Input.GetKeyDown(KeyCode.K)){
+			Death ();
+		}
 
 		//check to see if there is a new comer
 		if(connectedPlayers != GameController.players.Count) {
@@ -174,16 +186,30 @@ public class HunterController : Photon.MonoBehaviour {
 	public void FireBullet(string _bulletName) {
 		photonView.RPC("FireBulletRPC",PhotonTargets.All, shotPosition.position,shotPosition.rotation,_bulletName);
 	}
+
+	public void TakeDamage(int _damage) {
+		photonView.RPC("TakeDamageRPC",PhotonTargets.All, _damage);
+	}
+
+	public void Death() {
+		this.transform.position = startingPosition;
+		this.transform.rotation = Quaternion.identity;
+		this.health = this.startingHealth;
+		NetworkCharacter nc = this.GetComponent<NetworkCharacter>();
+		if(nc) {
+			nc.IgnoreLerp();
+		}
+	}
 	
 	[RPC]
 	void FireBulletRPC(Vector3 _v, Quaternion _q, string _bulletName ,PhotonMessageInfo _info) {
 		GameObject bullet = Resources.Load(_bulletName) as GameObject;
 		if(bullet) {
 			Instantiate(bullet,_v,_q);
-			//Bullet bScript = bullet.GetComponent<Bullet>();
-			//if(info.photonView.ownerId == PhotonNetwork.player.ID) {
-			//	bScript.bulletOwner = this;
-			//}
+			Bullet bScript = bullet.GetComponent<Bullet>();
+			if(photonView.ownerId == PhotonNetwork.player.ID) {
+				bScript.bulletOwner = this;
+			}
 		}
 	}
 	
@@ -194,6 +220,14 @@ public class HunterController : Photon.MonoBehaviour {
 		
 		foreach(Renderer ren in bodyRenderers) {
 			ren.material.color = myColor;
+		}
+	}
+
+	[RPC]
+	void TakeDamageRPC(int _damage) {
+		this.Health -= _damage;
+		if(this.Health <= 0){
+			Death ();
 		}
 	}
 

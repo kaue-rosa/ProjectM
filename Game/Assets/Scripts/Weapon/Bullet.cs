@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour {
 			if(c.gameObject.tag == "Player") {
 				HunterController playerHit = c.gameObject.GetComponent<HunterController>();
 				if(playerHit) {
-					//player hit code
+					playerHit.TakeDamage(1);
 				}
 			}
 		}

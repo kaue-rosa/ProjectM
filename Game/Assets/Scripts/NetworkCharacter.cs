@@ -36,4 +36,10 @@ public class NetworkCharacter : Photon.MonoBehaviour
 			this.correctPlayerHeadRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+	public void IgnoreLerp() {
+		this.correctPlayerPos = transform.position;
+		this.correctPlayerRot = transform.rotation;
+		this.correctPlayerHeadRot = hc.headPivot.transform.rotation;
+	}
 }
