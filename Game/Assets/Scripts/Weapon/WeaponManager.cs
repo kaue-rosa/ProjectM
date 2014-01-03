@@ -6,7 +6,7 @@ public class WeaponManager {
 	//public int bullets = 20;
 	public int bulletsInARow = 3;
 	public float timeIntervalBetweenBullets = 0.2f;
-	public string bulletPrefab = "Bullet";
+	public string bulletPrefab = "Bullet1";
 	public bool hasScope = false;
 	public HunterController hunterController;
 
@@ -50,6 +50,7 @@ public class WeaponFakeOne : WeaponManager {
 
 		this.bulletsInARow = 1;
 		this.timeIntervalBetweenBullets = 0f;
+		this.bulletPrefab = "Bullet1";
 	}
 }
 
@@ -59,6 +60,7 @@ public class WeaponFakeTwo : WeaponManager {
 
 		this.bulletsInARow = 200;
 		this.timeIntervalBetweenBullets = 0.2f;
+		this.bulletPrefab = "Bullet2";
 	}
 }
 
@@ -68,5 +70,6 @@ public class WeaponFakeThree : WeaponManager {
 
 		this.bulletsInARow = 3;
 		this.timeIntervalBetweenBullets = 0.1f;
+		this.bulletPrefab = "Bullet3";
 	}
 }
